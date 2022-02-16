@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div>
+  <div class="min-h-screen">
+    <div class="gradient-bg-welcome">
       <Navbar />
 
       <Welcome />
