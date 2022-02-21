@@ -16,11 +16,8 @@
 
 <script>
 import { defineComponent } from "vue";
-import Services from "../components/Services.vue";
-import Transactions from "../components/Transactions.vue";
 
 export default defineComponent({
-  components: { Services, Transactions },
   name: "Home",
 });
 </script>

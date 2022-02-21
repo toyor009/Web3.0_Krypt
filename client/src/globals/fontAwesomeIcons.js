@@ -5,6 +5,16 @@ import {
   faCaretDown,
   faTimes,
   faBars,
+  faBitcoinSign,
+  faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faSpinner, faCircleNotch, faCaretDown, faTimes, faBars);
+library.add(
+  faSpinner,
+  faCircleNotch,
+  faCaretDown,
+  faTimes,
+  faBars,
+  faBitcoinSign,
+  faInfoCircle
+);
