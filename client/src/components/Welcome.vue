@@ -14,10 +14,11 @@
           class="text-left mt-5 text-white font-light w-11/12 md:w-9/12 text-base"
         >
           Explore the crypto world. Buy and sell cryptocurrencies easily on
-          Krypto
+          Krypt
         </p>
 
         <button
+          v-if="!connectedAccount"
           type="button"
           class="flex flre-row justify-center items-center my-5 bg-[#2952e3] p-3 rounded-full cursor-pointer hover:bg-[#2546bd]"
           @click="connectWallet"
@@ -100,6 +101,8 @@
 <script>
 import { defineComponent } from "vue";
 
+import TransactionContext from "/@context/TransactionContext";
+
 const Input = defineComponent({
   name: "Input",
   emits: ["update:value"],
@@ -152,11 +155,16 @@ export default defineComponent({
     };
   },
 
-  methods: {
-    connectWallet() {
-      console.log("connecting walet...");
-    },
+  setup() {
+    const { checkIfWalletIsConnected, connectWallet, connectedAccount } =
+      TransactionContext();
 
+    checkIfWalletIsConnected();
+
+    return { connectWallet, connectedAccount };
+  },
+
+  methods: {
     submit() {
       console.log("submitting...");
     },
