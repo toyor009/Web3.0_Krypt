@@ -24,7 +24,7 @@
           @click="connectWallet"
         >
           <span class="text-white text-base font-semibold">
-            Connect Wallet
+            {{ isConnectingWallet ? "Connecting..." : "Connect Wallet" }}
           </span>
         </button>
 
@@ -83,9 +83,10 @@
 
           <div class="h-[1px] w-full bg-gray-400 my-2" />
 
-          <Loader v-if="false" />
+          <Loader v-if="isSendingTransaction" />
 
           <button
+            v-else
             type="button"
             class="text-white w-full mt-2 border-[1px] border-[#3d4f7c] p-2 rounded-full cursor-pointer"
             @click="submit"
@@ -99,9 +100,9 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, computed, reactive } from "vue";
 
-import TransactionContext from "/@context/TransactionContext";
+import { useStore } from "/@store";
 
 const Input = defineComponent({
   name: "Input",
@@ -156,17 +157,63 @@ export default defineComponent({
   },
 
   setup() {
-    const { checkIfWalletIsConnected, connectWallet, connectedAccount } =
-      TransactionContext();
+    const store = useStore();
+    const connectedAccount = computed(() => store.state.connectedAccount);
+    const requestStatus = reactive(store.state.requestStatus);
+    const connectWallet = async () => {
+      await store.dispatch("connectWallet");
+    };
+    const getConnectedAccount = async () => {
+      await store.dispatch("getConnectedAccount");
+    };
+    const sendTransaction = async (transaction) => {
+      await store.dispatch("sendTransaction", transaction);
+    };
 
-    checkIfWalletIsConnected();
+    getConnectedAccount();
 
-    return { connectWallet, connectedAccount };
+    return { requestStatus, connectedAccount, connectWallet, sendTransaction };
+  },
+
+  computed: {
+    isSendingTransaction() {
+      return this.requestStatus.sendTransaction === "LOADING";
+    },
+
+    isConnectingWallet() {
+      return this.requestStatus.connectWallet === "LOADING";
+    },
+
+    transactionWasSuccessful() {
+      return this.requestStatus.sendTransaction === "SUCCESS";
+    },
   },
 
   methods: {
-    submit() {
-      console.log("submitting...");
+    async submit() {
+      if (this.form.some((field) => !field.value)) return;
+
+      let transaction = {};
+      this.form.map((field) => {
+        transaction = { ...transaction, [field.name]: field.value };
+      });
+
+      transaction = { ...transaction, addressFrom: this.connectedAccount };
+
+      await this.sendTransaction(transaction);
+      if (this.transactionWasSuccessful) {
+        this.clearForm();
+        alert("Transction Successful");
+        return;
+      }
+
+      alert("Transction Failed");
+    },
+
+    clearForm() {
+      this.form.map((field) => {
+        field.value = "";
+      });
     },
   },
 });
