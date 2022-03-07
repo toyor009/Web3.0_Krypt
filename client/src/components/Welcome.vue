@@ -70,6 +70,7 @@
 
         <!-- Form -->
         <div
+          v-if="connectedAccount"
           class="p-5 sm:w-96 w-full flex flex-col justify-start items-center blue-glassmorphism mt-4"
         >
           <Input

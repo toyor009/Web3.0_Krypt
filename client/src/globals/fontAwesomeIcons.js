@@ -7,6 +7,9 @@ import {
   faBars,
   faBitcoinSign,
   faInfoCircle,
+  faShield,
+  faMagnifyingGlassDollar,
+  faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -16,5 +19,8 @@ library.add(
   faTimes,
   faBars,
   faBitcoinSign,
-  faInfoCircle
+  faInfoCircle,
+  faShield,
+  faMagnifyingGlassDollar,
+  faHeart
 );
