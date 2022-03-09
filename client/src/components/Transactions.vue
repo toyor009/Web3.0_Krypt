@@ -142,8 +142,6 @@ export default defineComponent({
       }
     );
 
-    watchEffect(() => console.log("allTransactions: ", allTransactions.value));
-
     return {
       requestStatus,
       connectedAccount,
