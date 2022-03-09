@@ -6,7 +6,7 @@
       class="w-full flex sm:flex-row flex-col justify-between items-center my-4"
     >
       <div class="flex flex-[0.5] justify-center items-center">
-        <img src="src/images/logo.png" alt="Logo" class="w-32" />
+        <img src="/src/images/logo.png" alt="Logo" class="w-32" />
       </div>
 
       <div

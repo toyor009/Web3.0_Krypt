@@ -1,7 +1,7 @@
 <template>
   <nav class="w-full flex md:justify-center justify-between items-center p-4">
     <div class="md:flex-[0.5] flex-initial justify-center items-center">
-      <img src="src/images/logo.png" alt="Logo" class="w-32 cursor-pointer" />
+      <img src="/src/images/logo.png" alt="Logo" class="w-32 cursor-pointer" />
     </div>
 
     <ul
