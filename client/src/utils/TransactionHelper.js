@@ -1,5 +1,6 @@
 import { ethers } from "ethers";
 import { contractABI, contractAddress } from "/@utils/constants";
+import { logError } from "/@utils/mixin";
 
 const { ethereum } = window;
 
@@ -86,18 +87,20 @@ export const sendTransaction = async (transaction) => {
       keyword
     );
 
-    console.log("Loading.....", transactionHash.hash);
+    // console.log("Loading.....", transactionHash.hash);
     await transactionHash.wait();
-    console.log("Success.....", transactionHash.hash);
-
-    //getTransactionCount();
-    // const txCount = await transactionContract.getTransactionCount();
-    // transactionCount.value = txCount;
+    // console.log("Success.....", transactionHash.hash);
   } catch (error) {
     logError(error);
   }
 };
 
-export const logError = (error) => {
-  console.log("error", error);
+export const getAllTransactions = async () => {
+  try {
+    const transactionContract = getEthreumContract();
+    const transactions = await transactionContract.getAllTransactions();
+    return transactions;
+  } catch (error) {
+    logError(error);
+  }
 };

@@ -62,7 +62,9 @@
             </div>
 
             <div>
-              <p class="text-white font-light text-sm">Address</p>
+              <p class="text-white font-light text-sm">
+                {{ shortenedAddress }}
+              </p>
               <p class="text-white font-semibold text-lg mt-1">Ethereum</p>
             </div>
           </div>
@@ -104,6 +106,8 @@
 import { defineComponent, computed, reactive } from "vue";
 
 import { useStore } from "/@store";
+
+import { shortenAddress } from "/@utils/mixin";
 
 const Input = defineComponent({
   name: "Input",
@@ -161,22 +165,40 @@ export default defineComponent({
     const store = useStore();
     const connectedAccount = computed(() => store.state.connectedAccount);
     const requestStatus = reactive(store.state.requestStatus);
+
     const connectWallet = async () => {
       await store.dispatch("connectWallet");
     };
+
     const getConnectedAccount = async () => {
       await store.dispatch("getConnectedAccount");
     };
+
     const sendTransaction = async (transaction) => {
       await store.dispatch("sendTransaction", transaction);
     };
 
+    const getAllTransactions = async () => {
+      await store.dispatch("getAllTransactions");
+    };
+
     getConnectedAccount();
 
-    return { requestStatus, connectedAccount, connectWallet, sendTransaction };
+    return {
+      requestStatus,
+      connectedAccount,
+      connectWallet,
+      sendTransaction,
+      getAllTransactions,
+    };
   },
 
   computed: {
+    shortenedAddress() {
+      const { connectedAccount } = this;
+      return connectedAccount ? shortenAddress(connectedAccount) : "";
+    },
+
     isSendingTransaction() {
       return this.requestStatus.sendTransaction === "LOADING";
     },
@@ -204,6 +226,7 @@ export default defineComponent({
       await this.sendTransaction(transaction);
       if (this.transactionWasSuccessful) {
         this.clearForm();
+        this.getAllTransactions();
         alert("Transction Successful");
         return;
       }
