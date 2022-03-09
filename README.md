@@ -1,10 +1,13 @@
 # Web3.0_Krypt
 
-Krypt is a Web 3.0 app for crypto (ethereum) transactions.
+Kryptolify is a Web 3.0 app for crypto (ethereum) transactions.
 
 - Vue Solidity Blockchain App
 
-# Run the app
+# Demo
+- https://kryptolify.netlify.app/
+
+# Run locally
 
 - cd /client
 - npm install
